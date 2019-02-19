@@ -38,7 +38,7 @@
                 //    params: param,
                 //    headers: { 'Content-Type': 'application/json' }
                 //};
-                $http.get('api/Ganancia?consultors=' + param.consultors + '&anno=' + param.anno + '&begmonth=' + param.begmonth + '&endmonth=' + param.endmonth).then(function (result) {
+                $http.get('api/Ganancia?consultors=' + param.consultors + '&beganno=' + param.beganno + '&endanno=' + param.endanno +'&begmonth=' + param.begmonth + '&endmonth=' + param.endmonth).then(function (result) {
                     deferred.resolve(result.data);
                 }, function () {
                     deferred.reject();

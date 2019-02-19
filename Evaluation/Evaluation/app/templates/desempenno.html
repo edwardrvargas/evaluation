@@ -1,21 +1,44 @@
 ﻿
-<div class="container">
-    <div class="row">
-        <h4>Periodo</h4>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <md-content layout-padding layout-margin>
-                <md-datepicker ng-model="begDate" md-placeholder="Fecha Inicial"></md-datepicker>
-            </md-content>
+<form name="pForm" ng-controller="desempennoCtrl" class="container-fluid" ng-true-value="1" ng-false-value="0" aria-label="ShowHideAccountant">
+    <md-content layout-padding ng-cloak>
+        <div layout-gt-xs="row">
+            <div flex-gt-xs>
+                <h4>Periodo Inicial</h4>
+                <md-input-container>
+                    <label>Mes</label>
+                    <md-select class="monthBeg" ng-model="monthBeg">
+                        <md-option ng-value="value" ng-repeat="value in ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'] track by $index">{{value}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container>
+                    <label>Año</label>
+                    <md-select  class="annoBeg"  ng-model="annoBeg">
+                        <md-option ng-value="value" ng-repeat="value in ['2003','2004','2005','2006','2007'] track by $index">{{value}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div flex-gt-xs>
+                <h4>Periodo Final</h4>
+                <md-input-container>
+                    <label>Mes</label>
+                    <md-select  class="monthEnd"  ng-model="monthEnd">
+                        <md-option ng-value="value" ng-repeat="value in ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'] track by $index">{{value}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container>
+                    <label>Año</label>
+                    <md-select  class="annoEnd"  ng-model="annoEnd">
+                        <md-option ng-value="value" ng-repeat="value in ['2003','2004','2005','2006','2007'] track by $index">{{value}}</md-option>
+                    </md-select>
+                </md-input-container>
+
+            </div>
         </div>
-        <div class="col-md-6">
-            <md-content layout-padding layout-margin>
-                <md-datepicker ng-model="begEnd"md-placeholder="Fecha Final"></md-datepicker>
-            </md-content>   
-        </div>
-    </div>
-</div>
+    </md-content>
+</form>
+
+
+
 
 <div class="md-padding" id="popupContainer" ng-cloak>
 </div>
@@ -50,77 +73,57 @@
             <md-content flex layout-padding>
                 <md-list style="height: 300px;">
                     <md-list-item class="md-2-line" ng-repeat="k in selectedConsultors">
-                        <div class = "md-list-item-text compact">
+                        <div class="md-list-item-text compact">
                             <h3>{{k.Name}}</h3>
                             <p>{{k.IdUsuario}}</p>
                         </div>
-                        <md-checkbox class="md-secondary" ng-model ="k.Selected" ></md-checkbox>
+                        <md-checkbox class="md-secondary" ng-model="k.Selected"></md-checkbox>
                     </md-list-item>
                 </md-list>
             </md-content>
         </div>
         <div class="col-md-2">
             <md-button class="md-raised md-primary btnGanancia" ng-click="ganancias()">Ganancias</md-button>
-            <md-button class="md-raised md-primary btnGrafico" ng-click="grafico()" > Grafico </md-button>
-            <md-button class="md-raised md-primary btnPizza"   >  Pizza  </md-button>
+            <md-button class="md-raised md-primary btnGrafico" ng-click="grafico()"> Grafico </md-button>
+            <md-button class="md-raised md-primary btnPizza">  Pizza  </md-button>
         </div>
 
     </div>
 </div>
-<div layout="row" layout-xs="column">
-    <div flex="35">      
-        <div layout="column" ng-cloak>
-
-        </div>
-    </div>
-
-    <div flex="10">
-
-    </div>
-    <div flex="35">
-        <div layout="column" ng-cloak>
-
-
-        </div>
-    </div>
-    <div flex="10">
-
-    </div>
-</div>
-<br/>
-<div class ="tblGanancia" style="display: none;">
-    <div ng-repeat="item in listGanancias" >
+<br />
+<div class="tblGanancia" style="display: none;">
+    <div ng-repeat="item in listGanancias">
         <div layout="row">
             <h4><b>{{item.consultor}}</b></h4>
         </div>
         <div>
             <table class="table table-bordered table-stripped table-hover">
                 <thead>
-                <tr>
-                    <th style="width: 30%;">Periodo</th>
-                    <th>Receita Liquida</th>
-                    <th>Custo Fixo</th>
-                    <th>Comissão</th>
-                    <th>Lucro</th>
-                </tr>
+                    <tr>
+                        <th style="width: 30%;">Periodo</th>
+                        <th>Receita Liquida</th>
+                        <th>Custo Fixo</th>
+                        <th>Comissão</th>
+                        <th>Lucro</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="k in item.details" >
-                    <td style="width: 30%;">{{k.datename}}</td>
-                    <td>{{k.valorliquido | currency:"R$" }}</td>
-                    <td>{{k.salario | currency:"R$"}}</td>
-                    <td>{{k.comision | currency:"R$"}}</td>
-                    <td>{{k.lucro | currency:"R$"}}</td>
-                </tr>
+                    <tr ng-repeat="k in item.details">
+                        <td style="width: 30%;">{{k.datename}}</td>
+                        <td>{{k.valorliquido | currency:"R$" }}</td>
+                        <td>{{k.salario | currency:"R$"}}</td>
+                        <td>{{k.comision | currency:"R$"}}</td>
+                        <td>{{k.lucro | currency:"R$"}}</td>
+                    </tr>
                 </tbody>
                 <tfoot>
-                <tr>
-                    <td style="width: 30%;"><b>SALDO</b></td>
-                    <td><b>{{item.totalreceitaliquida | currency:"R$"}}</b></td>
-                    <td><b>{{item.totalcostofijo | currency:"R$" }}</b></td>
-                    <td><b>{{item.totalcomision | currency:"R$" }}</b></td>
-                    <td><b>{{item.totallucro | currency:"R$"}}</b></td>
-                </tr>
+                    <tr>
+                        <td style="width: 30%;"><b>SALDO</b></td>
+                        <td><b>{{item.totalreceitaliquida | currency:"R$"}}</b></td>
+                        <td><b>{{item.totalcostofijo | currency:"R$" }}</b></td>
+                        <td><b>{{item.totalcomision | currency:"R$" }}</b></td>
+                        <td><b>{{item.totallucro | currency:"R$"}}</b></td>
+                    </tr>
                 </tfoot>
             </table>
         </div>

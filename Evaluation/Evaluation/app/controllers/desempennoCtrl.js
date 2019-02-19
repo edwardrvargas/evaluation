@@ -3,17 +3,70 @@
 
     angular
         .module('app')
-        .controller('desempennoCtrl', ['$scope', 'dataServices', '$mdDialog', '$http', function ($scope, dataServices, $mdDialog, $http ) {
-            $scope.cities = [];
+        .controller('desempennoCtrl', ['$scope', 'dataServices', '$mdDialog', function ($scope, dataServices, $mdDialog ) {
+
+            $scope.monthBeg = "";
+            $scope.annoBeg = "";
+
+            $scope.monthEnd = "";
+            $scope.annoEnd = "";
+            //[
+            //    { key: 1, value: "ENERO" },
+            //    { key: 2, value: "FEBRERO" },
+            //    { key: 3, value: "MARZO" },
+            //    { key: 4, value: "ABRIL" },
+            //    { key: 5, value: "MAYO" },
+            //    { key: 6, value: "JUNIO" },
+            //    { key: 7, value: "JULIO" },
+            //    { key: 8, value: "AGOSTO" },
+            //    { key: 9, value: "SEPTIEMBRE" },
+            //    { key: 10, value: "OCTUBRE" },
+            //    { key: 11, value: "NOVIMEBRE" },
+            //    { key: 12, value: "DICIEMBRE" }
+            //];                    
+
+            //$scope.monthsBeg2 = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO'];  
+
+            //$scope.yearsBeg = [
+            //    { key: 2003, value: "2003" },
+            //    { key: 2004, value: "2004" },
+            //    { key: 2005, value: "2005" },
+            //    { key: 2006, value: "2006" },
+            //    { key: 2007, value: "2007" }
+            //];
+
+            //$scope.monthsEnd = [
+            //    { key: 1, value: "ENERO" },
+            //    { key: 2, value: "FEBRERO" },
+            //    { key: 3, value: "MARZO" },
+            //    { key: 4, value: "ABRIL" },
+            //    { key: 5, value: "MAYO" },
+            //    { key: 6, value: "JUNIO" },
+            //    { key: 7, value: "JULIO" },
+            //    { key: 8, value: "AGOSTO" },
+            //    { key: 9, value: "SEPTIEMBRE" },
+            //    { key: 10, value: "OCTUBRE" },
+            //    { key: 11, value: "NOVIMEBRE" },
+            //    { key: 12, value: "DICIEMBRE" }
+            //];
+
+            //$scope.yearsEnd = [
+            //    { key: 2003, value: "2003" },
+            //    { key: 2004, value: "2004" },
+            //    { key: 2005, value: "2005" },
+            //    { key: 2006, value: "2006" },
+            //    { key: 2007, value: "2007" }
+            //];
+
             $scope.consultors = [];
             $scope.selectedConsultors = [];
             $scope.listGanancias = [];
-            $scope.begDate = new Date();
-            $scope.endDate = new Date();
+            //$scope.begDate = new Date();
+            //$scope.endDate = new Date();
 
-            $scope.data = {
-                date: new Date()
-            };
+            //$scope.data = {
+            //    date: new Date()
+            //};
 
 
             getData();
@@ -27,9 +80,11 @@
             function getGanancia() {
                 var data = {};
                 data.consultors = "";
-                data.begmonth = 1;  //$scope.begDate.getMonth();
-                data.endmonth = 1; // $scope.endDate.getMonth();
-                data.anno = 2007;   //$scope.begDate.getYear();
+
+                data.begmonth = $scope.getMonthIndex($('.monthBeg').text());  
+                data.endmonth = $scope.getMonthIndex($('.monthEnd').text());
+                data.beganno = $('.annoBeg').text();  
+                data.endanno = $('.annoEnd').text();     
                 var consultors = "";
                 angular.forEach($scope.selectedConsultors, function (value, key) {
                     if (key === 0)
@@ -45,19 +100,13 @@
 
 
             $scope.selectAll = function () {
-                $scope.selectedConsultor = [];
-                angular.forEach($scope.consultors, function (value, key) {
-                    value.Selected = false;
-                    $scope.selectedConsultor.push(value);
+                angular.forEach($scope.consultors,function(value, key) {
+                    value.Selected = $(".btnSelect").text() === "Todos";
                 });
-                $scope.consultors = [];
-
                 if ($(".btnSelect").text() === "Todos")
                     $(".btnSelect").text("Ninguno");
-                else {
+                else 
                     $(".btnSelect").text("Todos");
-                    getData();
-                }                    
             };
 
             $scope.selected = function () {              
@@ -92,6 +141,50 @@
                 });
             };
 
+
+            $scope.getMonthIndex = function (monthName) {
+                var index = 0;
+                switch (monthName) {
+                    case "ENERO":
+                        index = 1;
+                        break;
+                    case "FEBRERO":
+                        index = 2;
+                        break;
+                    case "MARZO":
+                        index = 3;
+                        break;
+                    case "ABRIL":
+                        index = 4;
+                        break;
+                    case "MAYO":
+                        index = 5;
+                        break;
+                    case "JUNIO":
+                        index = 6;
+                        break;
+                    case "JULIO":
+                        index = 7;
+                        break;
+                    case "AGOSTO":
+                        index = 8;
+                        break;
+                    case "SEPTIEMBRE":
+                        index = 9;
+                        break;
+                    case "OCTUBRE":
+                        index = 10;
+                        break;
+                    case "NOVIEMBRE":
+                        index = 11;
+                        break;
+                    case "DICIEMBRE":
+                        index = 12;
+                        break;
+                }
+                return index;
+            };
+
             $scope.ganancias = function () {
                 $(".tblGrafico").hide();
                 $(".tblGanancia").hide();
@@ -106,6 +199,22 @@
                     );
                     return;
                 }
+
+                if ($('.monthBeg').text() === "" || $('.monthBeg').text().includes("Mes") ||
+                    $('.annoBeg').text() === "" || $('.annoBeg').text().includes("Año") ||
+                    $('.monthEnd').text() === "" || $('.monthEnd').text().includes("Mes") ||
+                    $('.annoBeg').text() === "" || $('.annoBeg').text().includes("Año")) { 
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                        .parent(angular.element(document.querySelector('#popupContainer')))
+                        .clickOutsideToClose(true)
+                        .title('Ooop!!!')
+                        .textContent('Por favor, verifique la seleccion del Periodo.')
+                        .ok('Ok')
+                    );
+                    return;
+                }
+
                 getGanancia();
                 $(".tblGanancia").show();
             };

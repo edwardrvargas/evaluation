@@ -19,11 +19,11 @@ namespace Evaluation.Controllers
     public class GananciaController : ApiController
     {
         // GET api/<controller>
-        public IHttpActionResult Get([FromUri] string consultors, [FromUri] string anno, [FromUri] string begmonth, [FromUri] string endmonth)
+        public IHttpActionResult Get([FromUri] string consultors, [FromUri] string beganno, [FromUri] string endanno, [FromUri] string begmonth, [FromUri] string endmonth)
         {
             var inClausule = consultors.Split(';');
             caoContext db = new caoContext();
-            var ganancias = db.Database.SqlQuery<cao_view_receita_liquida>("SELECT * FROM cao_view_receita_liquida").Where(x=>inClausule.Contains(x.co_usuario) && x.anno_data_emissao ==  Convert.ToInt16(anno)  && x.mes_data_emissao >= Convert.ToInt16(begmonth) && x.mes_data_emissao <= Convert.ToInt16(endmonth)).ToList().OrderBy(e => e.no_usuario);
+            var ganancias = db.Database.SqlQuery<cao_view_receita_liquida>("SELECT * FROM cao_view_receita_liquida").Where(x=>inClausule.Contains(x.co_usuario) && x.anno_data_emissao >=  Convert.ToInt16(beganno) && x.anno_data_emissao <= Convert.ToInt16(endanno) && x.mes_data_emissao >= Convert.ToInt16(begmonth) && x.mes_data_emissao <= Convert.ToInt16(endmonth)).ToList().OrderBy(e => e.no_usuario);
             List<viewModelReceita> totales = ganancias.GroupBy(u => u.no_usuario).Select(cl => new viewModelReceita()
             {
                 consultor = cl.First().no_usuario,

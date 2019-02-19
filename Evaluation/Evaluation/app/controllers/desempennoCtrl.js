@@ -10,65 +10,9 @@
 
             $scope.monthEnd = "";
             $scope.annoEnd = "";
-            //[
-            //    { key: 1, value: "ENERO" },
-            //    { key: 2, value: "FEBRERO" },
-            //    { key: 3, value: "MARZO" },
-            //    { key: 4, value: "ABRIL" },
-            //    { key: 5, value: "MAYO" },
-            //    { key: 6, value: "JUNIO" },
-            //    { key: 7, value: "JULIO" },
-            //    { key: 8, value: "AGOSTO" },
-            //    { key: 9, value: "SEPTIEMBRE" },
-            //    { key: 10, value: "OCTUBRE" },
-            //    { key: 11, value: "NOVIMEBRE" },
-            //    { key: 12, value: "DICIEMBRE" }
-            //];                    
-
-            //$scope.monthsBeg2 = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO'];  
-
-            //$scope.yearsBeg = [
-            //    { key: 2003, value: "2003" },
-            //    { key: 2004, value: "2004" },
-            //    { key: 2005, value: "2005" },
-            //    { key: 2006, value: "2006" },
-            //    { key: 2007, value: "2007" }
-            //];
-
-            //$scope.monthsEnd = [
-            //    { key: 1, value: "ENERO" },
-            //    { key: 2, value: "FEBRERO" },
-            //    { key: 3, value: "MARZO" },
-            //    { key: 4, value: "ABRIL" },
-            //    { key: 5, value: "MAYO" },
-            //    { key: 6, value: "JUNIO" },
-            //    { key: 7, value: "JULIO" },
-            //    { key: 8, value: "AGOSTO" },
-            //    { key: 9, value: "SEPTIEMBRE" },
-            //    { key: 10, value: "OCTUBRE" },
-            //    { key: 11, value: "NOVIMEBRE" },
-            //    { key: 12, value: "DICIEMBRE" }
-            //];
-
-            //$scope.yearsEnd = [
-            //    { key: 2003, value: "2003" },
-            //    { key: 2004, value: "2004" },
-            //    { key: 2005, value: "2005" },
-            //    { key: 2006, value: "2006" },
-            //    { key: 2007, value: "2007" }
-            //];
-
             $scope.consultors = [];
             $scope.selectedConsultors = [];
             $scope.listGanancias = [];
-            //$scope.begDate = new Date();
-            //$scope.endDate = new Date();
-
-            //$scope.data = {
-            //    date: new Date()
-            //};
-
-
             getData();
          
             function getData() {
@@ -109,36 +53,34 @@
                     $(".btnSelect").text("Todos");
             };
 
-            $scope.selected = function () {              
-                var index = 0;
-
-                //NOTE: Se realiza de esta forma ya que la coleccion cambia.
-                angular.forEach($scope.consultors, function (value, key) {
-                    if (value.Selected) {
-                        value.Selected = false;
-                        $scope.selectedConsultors.push(value);                        
-                    }                    
-                });
+            $scope.selected = function () {
+                var auxSelected = [];
+                var auxAvailable = [];
                 angular.forEach($scope.consultors, function (value, key) {
                     if ($scope.consultors[key].Selected) {
-                        $scope.consultors.splice(key, 1);
+                        value.Selected = false;
+                        auxSelected.push(value);
+                    } else {
+                        auxAvailable.push($scope.consultors[key]);
                     }
                 });
+                $scope.consultors = auxAvailable;
+                $scope.selectedConsultors = $scope.selectedConsultors.concat(auxSelected);
             };
 
             $scope.removed = function () {
-                var index = 0;
-                angular.forEach($scope.selectedConsultors, function (value, key) {
-                    if (value.Selected) {
-                        value.Selected = false;
-                        $scope.consultors.push(value);                           
-                    }
-                });
+                var auxSelected = [];
+                var auxAvailable = [];
                 angular.forEach($scope.selectedConsultors, function (value, key) {
                     if ($scope.selectedConsultors[key].Selected) {
-                        $scope.selectedConsultors.splice(key, 1);
+                        value.Selected = false;
+                        auxSelected.push(value);
+                    } else {
+                        auxAvailable.push($scope.selectedConsultors[key]);
                     }
                 });
+                $scope.selectedConsultors = auxAvailable;
+                $scope.consultors = $scope.consultors.concat(auxSelected); 
             };
 
 
@@ -216,6 +158,17 @@
                 }
 
                 getGanancia();
+                //if ($scope.listGanancias.length === 0) {
+                //    $mdDialog.show(
+                //        $mdDialog.alert()
+                //        .parent(angular.element(document.querySelector('#popupContainer')))
+                //        .clickOutsideToClose(true)
+                //        .title('Ooop!!!')
+                //        .textContent('Parece que no existen datos en el Periodo especificado.')
+                //        .ok('Ok')
+                //    );
+                //    return;
+                //}
                 $(".tblGanancia").show();
             };
 
@@ -228,16 +181,11 @@
                         .parent(angular.element(document.querySelector('#popupContainer')))
                         .clickOutsideToClose(true)
                         .title('Ooop!!!')
-                        .textContent('Por favor, verifique su selección de Consultores.')
+                        .textContent('Por favor, verifique su selección de Consultores y ejecute la Consulta de Ganancia.')
                         .ok('Ok')
                     );
                     return;
                 }
-                var paramData = {};
-                paramData.consultorId = "13519958";
-                paramData.mes = 1;
-                paramData.anno = 2018;
-                getGanancia(paramData);
                 var values = [];
                 angular.forEach($scope.listGanancias, function (value, key) {
                     var item = {};
@@ -245,24 +193,25 @@
                     item.a = value.totalreceitaliquida;
                     values.push(item);
                 });
-                var data = [
-                        { y: '2014', a: 50, b: 90 },
-                        { y: '2015', a: 65, b: 75 },
-                        { y: '2016', a: 50, b: 50 },
-                        { y: '2017', a: 75, b: 60 },
-                        { y: '2018', a: 80, b: 65 },
-                        { y: '2019', a: 90, b: 70 },
-                        { y: '2020', a: 100, b: 75 },
-                        { y: '2021', a: 115, b: 75 },
-                        { y: '2022', a: 120, b: 85 },
-                        { y: '2023', a: 145, b: 85 },
-                        { y: '2024', a: 160, b: 95 }
-                    ],
+                var data = values,
+                    //[
+                    //    { y: '2014', a: 50, b: 90 },
+                    //    { y: '2015', a: 65, b: 75 },
+                    //    { y: '2016', a: 50, b: 50 },
+                    //    { y: '2017', a: 75, b: 60 },
+                    //    { y: '2018', a: 80, b: 65 },
+                    //    { y: '2019', a: 90, b: 70 },
+                    //    { y: '2020', a: 100, b: 75 },
+                    //    { y: '2021', a: 115, b: 75 },
+                    //    { y: '2022', a: 120, b: 85 },
+                    //    { y: '2023', a: 145, b: 85 },
+                    //    { y: '2024', a: 160, b: 95 }
+                    //],
                     config = {
                         data: data,
-                        xkey: 'consultor',
-                        ykeys: ['totalreceitaliquida'],
-                        labels: [],
+                        xkey: 'y',
+                        ykeys: ['a'],
+                        labels: ['Total Venta Liquida'],
                         fillOpacity: 0.6,
                         hideHover: 'auto',
                         behaveLikeLine: true,

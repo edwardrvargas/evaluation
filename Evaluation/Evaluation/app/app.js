@@ -6,7 +6,7 @@
                 'ngRoute', 'ngMaterial', 'ngMessages','ngSanitize'
             ])
         .config([
-            '$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+            '$routeProvider', '$locationProvider', '$qProvider', function ($routeProvider, $locationProvider, $qProvider) {
                 $locationProvider.hashPrefix('');
                 $routeProvider
                     .when('/',
@@ -15,6 +15,7 @@
                             templateUrl: '/app/templates/desempenno.html'
                         })
                     .otherwise({ redirectTo: '/' });
+                $qProvider.errorOnUnhandledRejections(false); 
             }
         ]);
 })();

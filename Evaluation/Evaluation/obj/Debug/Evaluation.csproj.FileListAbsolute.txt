@@ -93,4 +93,3 @@ D:\Proyectos\Evaluation\Evaluation\Evaluation\bin\MySql.Data.xml
 D:\Proyectos\Evaluation\Evaluation\Evaluation\bin\MySql.Data.Entity.EF6.xml
 D:\Proyectos\Evaluation\Evaluation\Evaluation\obj\Debug\Evaluation.Migrations.IntialDb.resources
 D:\Proyectos\Evaluation\Evaluation\Evaluation\obj\Debug\Evaluation.csproj.GenerateResource.cache
-D:\Proyectos\Evaluation\Evaluation\Evaluation\obj\Debug\Evaluation.csprojAssemblyReference.cache

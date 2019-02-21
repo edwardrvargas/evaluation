@@ -130,6 +130,7 @@
             $scope.ganancias = function () {
                 $(".tblGrafico").hide();
                 $(".tblGanancia").hide();
+                $(".tblPieChart").hide();
                 if ($scope.selectedConsultors.length === 0) {
                     $mdDialog.show(
                         $mdDialog.alert()
@@ -175,6 +176,7 @@
             $scope.grafico = function() {
                 $(".tblGrafico").hide();
                 $(".tblGanancia").hide();
+                $(".tblPieChart").hide();
                 if ($scope.selectedConsultors.length === 0) {
                     $mdDialog.show(
                         $mdDialog.alert()
@@ -210,6 +212,38 @@
                 config.element = 'bar-chart';
                 Morris.Bar(config);
                 $(".tblGrafico").show();
+            };
+
+            $scope.torta = function() {
+                $(".tblGrafico").hide();
+                $(".tblGanancia").hide();
+                $(".tblPieChart").hide();
+                if ($scope.selectedConsultors.length === 0) {
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                        .parent(angular.element(document.querySelector('#popupContainer')))
+                        .clickOutsideToClose(true)
+                        .title('Ooop!!!')
+                        .textContent(
+                            'Por favor, verifique su selección de Consultores y ejecute la Consulta de Ganancia.')
+                        .ok('Ok')
+                    );
+                    return;
+                }
+                var values = [];
+                angular.forEach($scope.listGanancias,
+                    function(value, key) {
+                        var item = {};
+                        item.label = value.consultor;
+                        item.value = value.totalreceitaliquida;
+                        values.push(item);
+                    });
+                Morris.Donut({
+                    element: 'pie-chart',
+                    data: values
+                });
+
+                $(".tblPieChart").show();
             };
         }]);
 

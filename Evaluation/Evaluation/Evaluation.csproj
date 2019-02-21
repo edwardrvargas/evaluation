@@ -162,7 +162,6 @@
     <Compile Include="Models\cao_salario.cs" />
     <Compile Include="Models\cao_sistema.cs" />
     <Compile Include="Models\cao_usuario.cs" />
-    <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\ConsultorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -173,7 +172,6 @@
       <DependentUpon>201902161703188_IntialDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\EF\City.cs" />
     <Compile Include="Models\cao_view_receita_liquida.cs" />
     <Compile Include="Models\permissao_sistema.cs" />
     <Compile Include="Models\ViewModel\viewModelReceita.cs" />
@@ -3079,6 +3077,7 @@
     <Content Include="Scripts\angular-1.7.7\docs\js\search-worker.min.js.map" />
     <Content Include="Scripts\angular-1.7.7\errors.json" />
     <Content Include="Scripts\angular-1.7.7\version.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -3978,6 +3977,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\EF\" />
     <Folder Include="Scripts\angular-1.7.7\i18n\ngLocale\" />
     <Folder Include="Views\City\" />
   </ItemGroup>
